@@ -4,7 +4,7 @@
 #
 Name     : perl-Types-Serialiser
 Version  : 1.0
-Release  : 8
+Release  : 9
 URL      : https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/Types-Serialiser-1.0.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/Types-Serialiser-1.0.tar.gz
 Summary  : unknown
