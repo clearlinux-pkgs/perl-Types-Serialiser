@@ -4,13 +4,14 @@
 #
 Name     : perl-Types-Serialiser
 Version  : 1.0
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/Types-Serialiser-1.0.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/Types-Serialiser-1.0.tar.gz
 Summary  : unknown
 Group    : Development/Tools
 License  : Artistic-1.0 GPL-1.0
 Requires: perl-Types-Serialiser-license = %{version}-%{release}
+Requires: perl-Types-Serialiser-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 BuildRequires : perl(common::sense)
 
@@ -29,6 +30,7 @@ other.
 Summary: dev components for the perl-Types-Serialiser package.
 Group: Development
 Provides: perl-Types-Serialiser-devel = %{version}-%{release}
+Requires: perl-Types-Serialiser = %{version}-%{release}
 
 %description dev
 dev components for the perl-Types-Serialiser package.
@@ -42,14 +44,24 @@ Group: Default
 license components for the perl-Types-Serialiser package.
 
 
+%package perl
+Summary: perl components for the perl-Types-Serialiser package.
+Group: Default
+Requires: perl-Types-Serialiser = %{version}-%{release}
+
+%description perl
+perl components for the perl-Types-Serialiser package.
+
+
 %prep
 %setup -q -n Types-Serialiser-1.0
+cd %{_builddir}/Types-Serialiser-1.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -59,7 +71,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -68,7 +80,7 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Types-Serialiser
-cp COPYING %{buildroot}/usr/share/package-licenses/perl-Types-Serialiser/COPYING
+cp %{_builddir}/Types-Serialiser-1.0/COPYING %{buildroot}/usr/share/package-licenses/perl-Types-Serialiser/9a56f3b919dfc8fced3803e165a2e38de62646e5
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -81,8 +93,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Types/Serialiser.pm
-/usr/lib/perl5/vendor_perl/5.28.2/Types/Serialiser/Error.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -91,4 +101,9 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-Types-Serialiser/COPYING
+/usr/share/package-licenses/perl-Types-Serialiser/9a56f3b919dfc8fced3803e165a2e38de62646e5
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/Types/Serialiser.pm
+/usr/lib/perl5/vendor_perl/5.30.1/Types/Serialiser/Error.pm
